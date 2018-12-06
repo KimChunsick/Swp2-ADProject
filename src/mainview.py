@@ -1,46 +1,7 @@
 #-*- coding: utf-8 -*-
-from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
-
-html = """
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <style>
-            .player iframe {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                left: 0;
-                top: 0;
-            }
-            body {
-                overflow:hidden;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="player">
-            <iframe id="ytplayer" allowfullscreen frameborder="0" width="100%" height="100%" scrolling="no" src="https://www.youtube.com/embed/{0}?enablejsapi=1"></iframe>
-        </div>
-        <script src=https://www.youtube.com/player_api></script>
-        <script>
-        var player;
-        function onYouTubePlayerAPIReady() {
-            player = new YT.Player('ytplayer', {
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-        </script>
-    </body>
-</html>
-""".replace("{0}", "lDPcSLGB0nQ")
+from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QMessageBox
+from src.playlist import PlayList
+from src.webplayer import WebPlayer
 
 class MainView(QWidget):
     def __init__(self, parent=None):
@@ -48,19 +9,56 @@ class MainView(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle("Youtube Player")
+        self.setWindowTitle('Youtube Player')
         self.main_layout = QGridLayout()
 
-        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
-        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+        text_css = """
+        QPushButton {
+            border-style: solid;
+            border-color: gray;
+            border-width: 2px;
+            border-radius: 10px; 
+        }
+        """
 
-        self.web_view = QWebEngineView()
-        self.web_view.setHtml(html)
-        self.web_view.setObjectName("webview")
-        self.main_layout.addWidget(self.web_view)
+        self.web_player = WebPlayer()
+        self.main_layout.addWidget(self.web_player, 0, 0, 2, 5)
+
+        self.list_view = PlayList(self)
+        self.main_layout.addWidget(self.list_view, 0, 6, 1, 2)
+
+        self.add_button = QPushButton('노래 추가')
+        self.add_button.clicked.connect(self.add)
+        # self.add_button.setStyleSheet(text_css)
+        self.main_layout.addWidget(self.add_button, 1, 6, 1, 1)
+
+        self.delete_button = QPushButton('노래 삭제')
+        self.delete_button.clicked.connect(self.delete)
+        # self.delete_button.setStyleSheet(text_css)
+        self.main_layout.addWidget(self.delete_button, 1, 7, 1, 1)
+
         self.setLayout(self.main_layout)
 
-if __name__ == "__main__":
+    def closeEvent(self, event):
+        replay = QMessageBox.question(self, 'Message', '정말 프로그램을 종료하시겠습니까?', QMessageBox.Yes, QMessageBox.No)
+
+        if replay == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
+    def delete(self):
+        key = self.list_view.currentIndex().data()
+        message = '{0}를 재생목록에서 삭제하시겠습니까?'.format(key)
+        replay = QMessageBox.question(self, 'Message', message, QMessageBox.Yes, QMessageBox.No)
+
+        if replay == QMessageBox.Yes:
+            self.list_view.remove_video(key)
+
+    def add(self):
+        pass
+
+if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
     view = MainView()
