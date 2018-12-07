@@ -1,7 +1,9 @@
 #-*- coding: utf-8 -*-
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QMessageBox
+from PyQt5.QtGui import QWindow
 from src.playlist import PlayList
 from src.webplayer import WebPlayer
+from src.addlist import AddList
 
 class MainView(QWidget):
     def __init__(self, parent=None):
@@ -24,7 +26,7 @@ class MainView(QWidget):
         self.web_player = WebPlayer()
         self.main_layout.addWidget(self.web_player, 0, 0, 2, 5)
 
-        self.list_view = PlayList(self)
+        self.list_view = PlayList()
         self.main_layout.addWidget(self.list_view, 0, 6, 1, 2)
 
         self.add_button = QPushButton('노래 추가')
@@ -36,6 +38,9 @@ class MainView(QWidget):
         self.delete_button.clicked.connect(self.delete)
         # self.delete_button.setStyleSheet(text_css)
         self.main_layout.addWidget(self.delete_button, 1, 7, 1, 1)
+
+        self.add_list = AddList()
+        self.add_list.hide()
 
         self.setLayout(self.main_layout)
 
@@ -56,7 +61,7 @@ class MainView(QWidget):
             self.list_view.remove_video(key)
 
     def add(self):
-        pass
+        self.add_list.show()
 
 if __name__ == '__main__':
     import sys
