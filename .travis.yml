@@ -4,4 +4,7 @@ python:
   - "3.6"
 
 install:
-  - pip3 install pyqt5
+  - "pip install pytest"
+
+script:
+  - "pytest src/requesttest.py"
