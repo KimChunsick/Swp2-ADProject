@@ -16,13 +16,16 @@ class PlayList(QListView):
         self.refresh()
 
         NotificationCenter.subscribe(NotificationName.end_video, self.next_video)
+        NotificationCenter.subscribe(NotificationName.add_video, self.add_video)
 
         # 첫 번째 인덱스로 영상 시작
         self.play_video(0)
 
-    def add_video(self, key, value):
-        self.file.save_text("{0}','{1}".format(key, value))
+    def add_video(self, kv_tuple):
+        current_index = self.currentIndex()
+        self.file.save_text("{0}','{1}".format(kv_tuple[0], kv_tuple[1]), "./PlayList.txt")
         self.refresh()
+        self.setCurrentIndex(current_index)
 
     def remove_video(self, key):
         self.file.remove(key)
