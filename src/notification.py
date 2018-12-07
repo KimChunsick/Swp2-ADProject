@@ -23,3 +23,4 @@ class NotificationCenter(object):
 class NotificationName:
     play = "PLAY"
     end_video = "END_VIDEO"
+    add_video = "ADD_VIDEO"
