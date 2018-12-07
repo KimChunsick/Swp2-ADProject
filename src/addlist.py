@@ -5,6 +5,7 @@ from urllib import request
 from urllib.parse import quote
 import json
 import ssl
+import threading
 
 class AddList(QWidget):
 
@@ -22,7 +23,7 @@ class AddList(QWidget):
         self.main_layout.addWidget(self.input_field, 0, 0, 1, 1)
 
         self.search_button = QPushButton('검색')
-        self.search_button.clicked.connect(self.did_clicked_serach)
+        self.search_button.clicked.connect(self.did_clicked_search)
         self.main_layout.addWidget(self.search_button, 0, 1, 1, 1)
 
         self.list_view = QListView()
@@ -33,6 +34,10 @@ class AddList(QWidget):
         self.model = QStandardItemModel()
         self.list_view.clicked.connect(self.did_clicked)
         self.list_view.setModel(self.model)
+
+    def showEvent(self, event):
+        self.input_field.setText("")
+        self.model.removeRows(0, self.model.rowCount())
 
     def set_key_in_query(self):
         try:
@@ -45,20 +50,24 @@ class AddList(QWidget):
             print(e)
             sys.exit(-1)
 
-    def did_clicked_serach(self):
-        if self.input_field.text() == '':
-            return
-
+    def show_search_result(self):
         query = self.query.format(quote(self.input_field.text()))
         result = request.urlopen(query).read().decode('utf-8')
         json_result = json.loads(result)
-
         self.model.removeRows(0, self.model.rowCount())
         for temp in json_result['items']:
             title = temp['snippet']['title']
             videoId = temp['id']['videoId']
             self.searched_data[title] = videoId
             self.model.appendRow(QStandardItem(title))
+
+    def did_clicked_search(self):
+        if self.input_field.text() == '':
+            return
+
+        thread = threading.Thread(target=self.show_search_result)
+        thread.daemon = True
+        thread.start()
 
     def did_clicked(self, sender):
         key = sender.data()
