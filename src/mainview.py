@@ -1,6 +1,5 @@
 #-*- coding: utf-8 -*-
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QMessageBox
-from PyQt5.QtGui import QWindow
 from src.playlist import PlayList
 from src.webplayer import WebPlayer
 from src.addlist import AddList
@@ -48,7 +47,7 @@ class MainView(QWidget):
         replay = QMessageBox.question(self, 'Message', '정말 프로그램을 종료하시겠습니까?', QMessageBox.Yes, QMessageBox.No)
 
         if replay == QMessageBox.Yes:
-            event.accept()
+            QApplication.instance().closeAllWindows()
         else:
             event.ignore()
 
