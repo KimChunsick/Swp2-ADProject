@@ -67,3 +67,6 @@ fabric.properties
 
 # For MAC
 .DS_Store
+
+# Private Data!
+*.key
