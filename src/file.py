@@ -30,7 +30,7 @@ class File:
             print(error)
             file = open(path, 'w')
             file.write('')
-        file.write(text)
+        file.write("{0}\r\n".format(text))
         file.close()
         self.process_data(text)
 
@@ -45,7 +45,7 @@ class File:
 
         lines = ""
         for k, v in dictionary.items():
-            lines += "{0}','{1}\n".format(k, v)
+            lines += "{0}','{1}\r\n".format(k, v)
         file.write(lines)
         file.close()
 
