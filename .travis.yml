@@ -7,7 +7,7 @@ install:
   - "pip install pytest"
 
 script:
-  - "pytest src/requesttest.py"
+  - "pytest unittest/test.py"
 
 branches:
   only:
