@@ -8,3 +8,7 @@ install:
 
 script:
   - "pytest src/requesttest.py"
+
+branches:
+  only:
+    - "dev"
