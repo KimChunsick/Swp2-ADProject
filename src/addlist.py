@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QLineEdit, QGridLayout, QListView, QPushButton, QMessageBox
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from src.notification import NotificationCenter, NotificationName
+from src.loadindicator import LoadingIndicator
 from urllib import request
 from urllib.parse import quote
 import json
@@ -35,6 +36,11 @@ class AddList(QWidget):
         self.list_view.clicked.connect(self.did_clicked)
         self.list_view.setModel(self.model)
 
+        self.indicator = LoadingIndicator(70)
+        self.indicator.start()
+        self.indicator.hide()
+        self.main_layout.addWidget(self.indicator, 0, 0, 2, 3)
+
     def showEvent(self, event):
         self.input_field.setText("")
         self.model.removeRows(0, self.model.rowCount())
@@ -60,11 +66,13 @@ class AddList(QWidget):
             videoId = temp['id']['videoId']
             self.searched_data[title] = videoId
             self.model.appendRow(QStandardItem(title))
+        self.indicator.hide()
 
     def did_clicked_search(self):
         if self.input_field.text() == '':
             return
 
+        self.indicator.show()
         thread = threading.Thread(target=self.show_search_result)
         thread.daemon = True
         thread.start()
