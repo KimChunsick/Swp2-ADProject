@@ -15,7 +15,7 @@ class LyricView(QWidget):
         self.offset = 0
         self.setWindowTitle('Lyric')
         self.setWindowOpacity(0.5)
-        self.setWindowFlags(PyQt5.QtCore.Qt.CustomizeWindowHint)
+        self.setWindowFlags(PyQt5.QtCore.Qt.CustomizeWindowHint | PyQt5.QtCore.Qt.WindowStaysOnTopHint)
         self.main_layout = QGridLayout()
 
         self.scrollArea = QScrollArea()
