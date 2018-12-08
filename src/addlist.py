@@ -47,7 +47,7 @@ class AddList(QWidget):
 
     def set_key_in_query(self):
         try:
-            file = open("./support/key.key", 'r')
+            file = open("../support/key.key", 'r')
             self.query = self.query.replace('[your_youtube_api_key]', file.read())
             file.close()
         except Exception as e:

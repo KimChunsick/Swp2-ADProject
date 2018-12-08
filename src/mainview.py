@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QMe
 from src.playlist import PlayList
 from src.webplayer import WebPlayer
 from src.addlist import AddList
+from src.lyricview import LyricView
 
 class MainView(QWidget):
     def __init__(self, parent=None):
@@ -67,4 +68,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     view = MainView()
     view.show()
+    lyric = LyricView()
+    lyric.show()
+
     sys.exit(app.exec_())

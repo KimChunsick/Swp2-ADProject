@@ -14,6 +14,8 @@ class NotificationCenter(object):
 
     @staticmethod
     def notification(tag, values=None):
+        if tag not in NotificationCenter.subscriber:
+            return
         for subscriber in NotificationCenter.subscriber[tag]:
             if values == None:
                 subscriber()
@@ -22,5 +24,6 @@ class NotificationCenter(object):
 
 class NotificationName:
     play = "PLAY"
+    update = "UPDATE"
     end_video = "END_VIDEO"
     add_video = "ADD_VIDEO"

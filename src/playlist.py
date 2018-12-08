@@ -8,7 +8,7 @@ class PlayList(QListView):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.file = File('./PlayList.txt')
+        self.file = File('../PlayList.txt')
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.clicked.connect(self.did_clicked)
         self.model = QStandardItemModel()
@@ -23,14 +23,15 @@ class PlayList(QListView):
 
     def add_video(self, kv_tuple):
         current_index = self.currentIndex()
-        self.file.save_text("{0}','{1}".format(kv_tuple[0], kv_tuple[1]), "./PlayList.txt")
+        self.file.save_text("{0}','{1}".format(kv_tuple[0], kv_tuple[1]), "../PlayList.txt")
         self.refresh()
         self.setCurrentIndex(current_index)
 
     def remove_video(self, key):
         self.file.remove(key)
         self.refresh()
-        self.next_video(2)
+        if self.model.rowCount() > 0:
+            self.next_video(2)
 
     def refresh(self):
         self.model.removeRows(0, self.model.rowCount())
@@ -42,8 +43,12 @@ class PlayList(QListView):
         value = self.file.result[sender.data()]
         self.setCurrentIndex(sender)
         NotificationCenter.notification(NotificationName.play, value)
+        NotificationCenter.notification(NotificationName.update, sender.data())
 
     def play_video(self, index):
+        if self.model.rowCount() <= 0:
+            return
+
         index = self.model.index(index, 0)
         self.did_clicked(index)
 
