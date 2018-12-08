@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 
 class LyricLoader:
     def __init__(self, info):
-        template = """<?xml version="1.0" encoding="UTF-8"?>
+        data = """<?xml version="1.0" encoding="UTF-8"?>
         <SOAP-ENV:Envelope
         xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
         xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding"
@@ -14,33 +14,33 @@ class LyricLoader:
         xmlns:ns3="ALSongWebServer/Service1Soap12">
         <SOAP-ENV:Body><ns1:GetResembleLyric2>
         <ns1:stQuery>
-        <ns1:strTitle>{title}</ns1:strTitle>
-        <ns1:strArtistName>{artist_name}</ns1:strArtistName>
-        <ns1:nCurPage>{page}</ns1:nCurPage>
+        <ns1:strTitle>%s</ns1:strTitle>
+        <ns1:strArtistName>%s</ns1:strArtistName>
+        <ns1:nCurPage>0</ns1:nCurPage>
         </ns1:stQuery>
         </ns1:GetResembleLyric2>
         </SOAP-ENV:Body>
         </SOAP-ENV:Envelope>
-        """
+        """ % (info[1], info[0])
         url = 'http://lyrics.alsong.co.kr/alsongwebservice/service1.asmx'
 
-        resp = requests.post(
-            url,
-            data=template.format(
-                title= info[1],
-                artist_name=info[0],
-                page=0,
-            ).encode(),
-            headers={
-                'content-type': 'application/soap+xml',
-            },
-        )
+        try:
+            response = requests.post(url, data=data,
+                headers={
+                    'content-type': 'application/soap+xml',
+                },
+            )
 
-        tree = ET.ElementTree(ET.fromstring(resp.text))
+            tree = ET.ElementTree(ET.fromstring(response.text))
 
-        self.lyric = 'lyric not found.'
+            self.lyric = (' ' * 10) + 'lyric not found.'
 
-        for node in tree.iter():
-            if 'strLyric' in node.tag:
-                self.lyric = node.text
-                return
+            for node in tree.iter():
+                if 'strLyric' in node.tag:
+                    self.lyric = node.text
+                    return
+
+        except Exception as e:
+            print(e)
+
+
