@@ -35,5 +35,26 @@
 </details>
 <br>
 
-## 스크린샷
+## 설명
+2018년 2학기 소프트웨어 프로젝트 AD과제 저장소입니다. 🤩
 
+유튜브 영상을 QWebEngineView를 이용해 출력하고, 
+
+알송 가사 서버에서 가사를 가져와 유사 플레이를 제작했습니다.
+
+아래 기술들이 들어가있습니다.
+* Python 3.6
+* PyQt5
+* Html, Css, Js
+* POST, GET methods
+
+## 스크린샷
+<p align="center">
+  <img src="./README_IMAGES/rbb.gif">
+</p>
+<br>
+
+<p align="center">
+  <img src="./README_IMAGES/full_capture.png">
+</p>
+<br>
