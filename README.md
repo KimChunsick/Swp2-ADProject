@@ -4,6 +4,13 @@
   <img src="./README_IMAGES/icon.png">
 </p>
 
+<p align="center">
+	<img src="https://img.shields.io/badge/language-python3.6-0085ca.svg">
+	<img src="https://img.shields.io/badge/framework-pyqt5-00ab84.svg">
+	<img src="https://img.shields.io/badge/platform-OS X | Windows | Linux-fce300.svg">
+</p>
+<br>
+
 ### 제작자
 | 학번 | 이름 |
 | :-: | :-: |
