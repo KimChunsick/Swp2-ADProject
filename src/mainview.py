@@ -4,13 +4,12 @@ from src.playlist import PlayList
 from src.webplayer import WebPlayer
 from src.addlist import AddList
 from src.lyricview import LyricView
+import os
 
 class MainView(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.init_ui()
-
-    def init_ui(self):
+        # UI 셋팅
         self.setWindowTitle('Youtube Player')
         self.main_layout = QGridLayout()
 

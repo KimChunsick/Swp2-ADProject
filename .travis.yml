@@ -11,5 +11,6 @@ script:
 
 branches:
   only:
+    - "master"
     - "dev"
     - "test"
