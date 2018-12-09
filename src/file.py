@@ -1,17 +1,18 @@
+#-*- coding: utf-8 -*-
+import os
 
 # TODO: pickle 사용 고려
 class File:
-
     def __init__(self, path):
-        self.path = path
+        self.path = os.getcwd() + path
         self.result = dict()
         self.map = map
 
         try:
-            file = open(path, 'r', encoding='UTF8')
+            file = open(self.path, 'r', encoding='UTF8')
         except Exception as error:
             print(error)
-            file = open(path, 'w', encoding='UTF8')
+            file = open(self.path, 'w', encoding='UTF8')
             file.write('')
         lines = file.readlines()
         file.close()
@@ -19,14 +20,17 @@ class File:
         for text in lines:
             self.process_data(text)
 
+    # 파일에서 불러온 데이터 가공
     def process_data(self, text):
         try:
             result_text = text.rstrip().split("','")
             self.result[result_text[0]] = result_text[1]
-        except:
-            pass
+        except Exception as error:
+            print(error)
 
-    def save_text(self, text, path):
+    # 텍스트에 한줄 만 저장할 때
+    def save_text(self, text, path=None):
+        path = path if path == '' else self.path
         try:
             file = open(path, 'a')
         except Exception as error:
@@ -37,8 +41,9 @@ class File:
         file.close()
         self.process_data(text)
 
-    def save_dict(self, path, mode, dictionary):
-        path = self.path if path == '' else path
+    # 기존의 내용을 지우고 dictionary의 값으로 새롭게 저장
+    def save_dict(self, dictionary, mode, path=None):
+        path = path if path == '' else self.path
         try:
             file = open(path, mode)
         except Exception as error:
@@ -52,6 +57,7 @@ class File:
         file.write(lines)
         file.close()
 
+    # 파일에서 값을 지움
     def remove(self, key):
         del self.result[key]
-        self.save_dict(self.path, 'w', self.result)
+        self.save_dict(self.result, 'w', self.path)
