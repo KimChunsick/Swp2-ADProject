@@ -3,6 +3,8 @@ import xml.etree.ElementTree as ET
 
 class LyricLoader:
     def __init__(self, info):
+        self.lyric = (' ' * 10) + 'lyric not found.'
+        
         data = """<?xml version="1.0" encoding="UTF-8"?>
         <SOAP-ENV:Envelope
         xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
@@ -32,8 +34,6 @@ class LyricLoader:
             )
 
             tree = ET.ElementTree(ET.fromstring(response.text))
-
-            self.lyric = (' ' * 10) + 'lyric not found.'
 
             for node in tree.iter():
                 if 'strLyric' in node.tag:
