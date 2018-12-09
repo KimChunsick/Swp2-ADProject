@@ -8,10 +8,10 @@ class File:
         self.map = map
 
         try:
-            file = open(path, 'r')
+            file = open(path, 'r', encoding='UTF8')
         except Exception as error:
             print(error)
-            file = open(path, 'w')
+            file = open(path, 'w', encoding='UTF8')
             file.write('')
         lines = file.readlines()
         file.close()
@@ -20,8 +20,11 @@ class File:
             self.process_data(text)
 
     def process_data(self, text):
-        result_text = text.rstrip().split("','")
-        self.result[result_text[0]] = result_text[1]
+        try:
+            result_text = text.rstrip().split("','")
+            self.result[result_text[0]] = result_text[1]
+        except:
+            pass
 
     def save_text(self, text, path):
         try:

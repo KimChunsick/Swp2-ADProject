@@ -8,7 +8,7 @@ class WebPlayer(QWebEngineView):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        file = open('./support/webplayer.html', 'r')
+        file = open('../support/webplayer.html', 'r')
         self.html = file.read()
 
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
