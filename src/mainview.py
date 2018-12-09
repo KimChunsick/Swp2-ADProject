@@ -14,15 +14,6 @@ class MainView(QWidget):
         self.setWindowTitle('Youtube Player')
         self.main_layout = QGridLayout()
 
-        text_css = """
-        QPushButton {
-            border-style: solid;
-            border-color: gray;
-            border-width: 2px;
-            border-radius: 10px; 
-        }
-        """
-
         self.web_player = WebPlayer()
         self.main_layout.addWidget(self.web_player, 0, 0, 2, 5)
 
@@ -31,12 +22,10 @@ class MainView(QWidget):
 
         self.add_button = QPushButton('노래 추가')
         self.add_button.clicked.connect(self.add)
-        # self.add_button.setStyleSheet(text_css)
         self.main_layout.addWidget(self.add_button, 1, 6, 1, 1)
 
         self.delete_button = QPushButton('노래 삭제')
         self.delete_button.clicked.connect(self.delete)
-        # self.delete_button.setStyleSheet(text_css)
         self.main_layout.addWidget(self.delete_button, 1, 7, 1, 1)
 
         self.add_list = AddList()
@@ -70,5 +59,4 @@ if __name__ == '__main__':
     view.show()
     lyric = LyricView()
     lyric.show()
-
     sys.exit(app.exec_())
