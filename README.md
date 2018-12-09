@@ -5,6 +5,7 @@
 | :-: | :-: |
 | master | ![build badge - master](https://travis-ci.com/The-CodeVillain/Swp2-ADProject.svg?branch=master) |
 | dev | ![build badge - dev](https://travis-ci.org/The-CodeVillain/Swp2-ADProject.svg?branch=dev) |
+| test | ![build badge - test](https://travis-ci.org/The-CodeVillain/Swp2-ADProject.svg?branch=test)
 
 
 ### 제작자
