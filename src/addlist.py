@@ -26,7 +26,7 @@ class AddList(QWidget):
         self.main_layout.addWidget(self.input_field, 0, 0, 1, 1)
 
         self.search_button = QPushButton('검색')
-        self.search_button.clicked.connect(self.did_clicked_item)
+        self.search_button.clicked.connect(self.did_clicked_search)
         self.main_layout.addWidget(self.search_button, 0, 1, 1, 1)
 
         self.list_view = QListView()
