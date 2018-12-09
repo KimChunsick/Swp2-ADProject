@@ -107,6 +107,9 @@ class LyricView(QWidget):
                 data = info.split(i)
                 break
 
+        if len(data) != 2:
+            data = ['', '']
+
         self.artist_input.setText(data[0])
         self.title_input.setText(data[1])
         self.setLyricHelper(data)
