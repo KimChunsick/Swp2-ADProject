@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QPainter, QColor
 from PyQt5.QtWidgets import QWidget
@@ -17,11 +18,13 @@ class LoadingIndicator(QWidget):
         self.setFocusPolicy(Qt.NoFocus)
         self.setAutoFillBackground(True)
 
+    # 애니메이션 시작
     def start(self):
         if self.timer_id != -1:
             self.killTimer(self.timer_id)
         self.timer_id = self.startTimer(self.delay)
 
+    # 애니메이션 멈춤
     def stop(self):
         if self.timer_id != -1:
             self.killTimer(self.timer_id)
